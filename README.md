@@ -12,7 +12,12 @@ Inspired by this [project](https://github.com/ma6174/speak_raspi_ip), use aplay(
 
 * Git clone or downlode in somewhere.
 * Run tools/setup.sh(be careful about script path).
+* Test, run ```./ip_speaker.py test```
+* Run tools/setup.sh(not done).
 * Plug in headphones when the raspi power on, and listen it`s ip address.
+
+## Remove
+delete the line like ```python /home/...../ip_speak.py &``` in /etc/rc.local
 
 ## About wav file source
 

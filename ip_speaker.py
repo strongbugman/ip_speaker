@@ -7,6 +7,15 @@ import os
 import sys
 import time
 
+def sleep(sleeptime):
+    '''
+    Intro: print sleep time and sleep.
+    parameter:
+        sleeptime: int - sleep time, s
+    '''
+    print 'sleep:', sleeptime, 's'
+    time.sleep(sleeptime)
+
 def speakip(ip, sleeptime=1):
     '''
     Intro: use 'aplay' to speak ip
@@ -21,7 +30,7 @@ def speakip(ip, sleeptime=1):
         if char != '.':
             os.system(playip_cmd.format(sys.path[0], char))
         else:
-            time.sleep(sleeptime)
+            sleep(sleeptime)
 
 def getips():
     '''
@@ -34,7 +43,7 @@ def getips():
     ips = os.popen(getips_cmd).read()
     return ips.split('\n')[:-1]
 
-def isssh():
+def sshin():
     '''
     Intro: juge if someone ssh in
     Return:
@@ -53,15 +62,28 @@ def outoftime(starttime, maxtime=600):
     '''
     return (time.time() - starttime) > maxtime
 
+def test(sleeptime):
+    '''
+    Test.
+    '''
+    for ip in getips():
+        speakip(ip)
+        sleep(sleeptime)
+    
+
 def main(sleeptime=5):
     starttime = time.time()
+   
+    if 'test' in sys.argv:
+        test(sleeptime)
+        sys.exit()
 
     while True:
-        if isssh() or outoftime(starttime):
+        if sshin() or outoftime(starttime):
             break
         for ip in getips():
             speakip(ip)
-            time.sleep(sleeptime)
+            sleep(sleeptime)
 
 if __name__ == '__main__':
     main()
