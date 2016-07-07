@@ -2,7 +2,6 @@
 
 Ip speaker for raspberry pi.
 Inspired by this [project](https://github.com/ma6174/speak_raspi_ip), use aplay(build in) to paly wav files, and more feature.
-**Not done**.
 
 ## Feature
 
@@ -12,7 +11,7 @@ Inspired by this [project](https://github.com/ma6174/speak_raspi_ip), use aplay(
 ## How to use
 
 * Git clone or downlode in somewhere.
-* Run tools/setup.sh(not done).
+* Run tools/setup.sh(be careful about script path).
 * Plug in headphones when the raspi power on, and listen it`s ip address.
 
 ## About wav file source
