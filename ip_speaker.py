@@ -4,6 +4,7 @@ Speak ip address by aplay.
 """
 
 import os
+import sys
 import time
 
 def speakip(ip, sleeptime=1):
@@ -15,10 +16,10 @@ def speakip(ip, sleeptime=1):
     Return: no return
     '''
     #paly [num].wav by aplay
-    playip_cmd = "aplay data/{:s}.wav"
+    playip_cmd = "aplay {:s}/data/{:s}.wav"
     for char in ip:
         if char != '.':
-            os.system(playip_cmd.format(char))
+            os.system(playip_cmd.format(sys.path[0], char))
         else:
             time.sleep(sleeptime)
 
@@ -40,9 +41,9 @@ def isssh():
         True or False
     '''
     #if someone ssh in, the pid of sshd will more than 2
-    is_ssh_cmd = "pidof sshd | cut -d ' ' -f2"
+    is_ssh_cmd = "pidof sshd | awk '{print NF}'"
     sshpid = os.popen(is_ssh_cmd).read()
-    return len(sshpid) > 1
+    return int(sshpid) > 1
 
 def outoftime(starttime, maxtime=600):
     '''
