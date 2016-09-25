@@ -7,14 +7,6 @@ import os
 import sys
 import time
 
-def sleep(sleeptime):
-    '''
-    Intro: print sleep time and sleep.
-    parameter:
-        sleeptime: int - sleep time, s
-    '''
-    print 'sleep:', sleeptime, 's'
-    time.sleep(sleeptime)
 
 def speakip(ip, sleeptime=1):
     '''
@@ -39,7 +31,7 @@ def getips():
         ips: list - ip list
     '''
     #Get ips by extracting the out of ifconfig cmd
-    getips_cmd = "ifconfig | grep Mask | awk ' {print $2}' | cut -d: -f2 | grep -v '^127'"
+    getips_cmd = "ifconfig | grep inet | grep -v \"inet6\" | awk ' {print $2}' | cut -d: -f2 | grep -v '^127'"
     ips = os.popen(getips_cmd).read()
     return ips.split('\n')[:-1]
 
@@ -52,38 +44,30 @@ def sshin():
     #if someone ssh in, the pid of sshd will more than 2
     is_ssh_cmd = "pidof sshd | awk '{print NF}'"
     sshpid = os.popen(is_ssh_cmd).read()
-    return int(sshpid) > 1
+    try:
+        return int(sshpid) > 1
+    except ValueError:
+        return False
 
-def outoftime(starttime, maxtime=600):
-    '''
-    Intro: juge if this run time out of max time, default 10 mins
-    Return:
-        True or False
-    '''
-    return (time.time() - starttime) > maxtime
 
-def test(sleeptime):
+def main(sleeptime=5, count=200):
     '''
-    Test.
+    sleeptime - sleeptime for time interval bettwen two complete ip`s speaking
+    count - how much times for ip speaking
     '''
-    for ip in getips():
-        speakip(ip)
-        sleep(sleeptime)
-    
-
-def main(sleeptime=5):
-    starttime = time.time()
-   
     if 'test' in sys.argv:
-        test(sleeptime)
-        sys.exit()
+        for ip in getips():
+            speakip(ip)
+            print 'sleep:', sleeptime, 's'
+            time.sleep(sleeptime)
 
-    while True:
-        if sshin() or outoftime(starttime):
+    while count > 0:
+        if sshin():
             break
         for ip in getips():
             speakip(ip)
-            sleep(sleeptime)
+            time.sleep(sleeptime)
+        count -= 1
 
 if __name__ == '__main__':
     main()
