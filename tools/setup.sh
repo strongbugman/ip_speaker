@@ -1,12 +1,18 @@
 #!/bin/bash
 
-#Auto run this project when raspi power on.
+# auto run this project when raspi power on.
 
 script_path=$(pwd)/ip_speaker.py
 
 echo 'This script`s path is ok?'
 echo $script_path
-echo 'Check it and maybe you should edit it in /etc/rc.local'
+echo 'Check it and maybe you should edit it in /lib/systemd/system/ip_speaker.service'
 
-#Add auto run script to rc.local
-sudo sed -i "/^exit 0/i python $script_path &" /etc/rc.local
+# make systemd service
+sed -i "/^\[Install\]/i ExecStart=$script_path \n" ./tools/ip_speaker.service
+
+# copy to '/lib/systemd/system'
+sudo cp ./tools/ip_speaker.service /lib/systemd/system
+
+# enable auto start
+sudo systemctl enable ip_speaker

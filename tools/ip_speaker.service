@@ -1,0 +1,8 @@
+[Unit]
+Description=ip_speaker
+After=network.target
+
+[Service]
+Type=simple
+[Install]
+WantedBy=multi-user.target
