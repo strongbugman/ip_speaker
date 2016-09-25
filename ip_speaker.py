@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """
 Speak ip address by aplay.
 """
@@ -22,7 +22,7 @@ def speakip(ip, sleeptime=1):
         if char != '.':
             os.system(playip_cmd.format(sys.path[0], char))
         else:
-            sleep(sleeptime)
+            time.sleep(sleeptime)
 
 def getips():
     '''
