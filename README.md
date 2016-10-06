@@ -7,16 +7,17 @@ Inspired by this [project](https://github.com/ma6174/speak_raspi_ip), use aplay(
 
 * Can help you get the ip address of your raspberry pi when the raspi power on.
 * Auto close up when you ssh in your raspi or the raspi has turned up more than 10 mins.
+* Auto start by systemd.
 
 ## How to use
 
 * Git clone or downlode in somewhere.
 * Test, run ```./ip_speaker.py test```
-* Run tools/setup.sh(be careful about script path).
+* Run setup.sh(be careful about script path).
 * Plug in headphones when the raspi power on, and listen it`s ip address.
 
 ## Remove
-delete the line like ```python /home/...../ip_speak.py &``` in /etc/rc.local
+run ```sudo systemctl disable ip_speaker && sudo rm /lib/systemd/system/ip_speaker.service```
 
 ## About wav file source
 
